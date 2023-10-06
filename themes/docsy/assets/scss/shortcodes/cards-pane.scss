@@ -1,4 +1,4 @@
-.td-card-group.card-group {
+.td-card-deck.card-deck {
   @extend .td-max-width-on-larger-screens;
 }
 
@@ -8,7 +8,6 @@
 
     .highlight {
       border: none;
-      margin: 0;
     }
   }
 

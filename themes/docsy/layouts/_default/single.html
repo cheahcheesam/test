@@ -1,3 +1,5 @@
-{{ define "main" -}}
-{{ .Content -}}
+{{ define "main" }}
+{{ with .Content }}
+{{ . }}
+{{ end }}
 {{ end }}

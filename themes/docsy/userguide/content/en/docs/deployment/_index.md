@@ -40,16 +40,12 @@ Then follow the instructions in [Host on Netlify](https://gohugo.io/hosting-and-
 1. Click **New site from Git**.
 1. Click your chosen Git provider, then choose your site repo from your list of repos.
 1. In the **Deploy settings** page:
-   1. Specify your **Build command**. The exact build command depends on how you have chosen to use Docsy:
-      * If you are using Docsy as a [Git submodule](/docs/get-started/other-options/#option-1-docsy-as-a-git-submodule), specify `cd themes/docsy && git submodule update -f --init && cd ../.. && hugo`. You need to specify this rather than just `hugo` so that Netlify can use the theme's submodules.
-      * If you are using Docsy as a [Hugo module](/docs/get-started/docsy-as-module/) or NPM package, you can just specify `hugo`.   
-   3. Click **Show advanced**.
-   4. In the **Advanced build settings** section, click **New variable**.
-   5. Specify `HUGO_VERSION` as the **Key** for the new variable, and set its **Value** to the latest version of Hugo (minimum required version: `0.110.0`).
-   6. In the **Advanced build settings** section, click **New variable** again.
-   7. Specify `GO_VERSION` as the **Key** for the new variable, and set its **Value** to the latest version of Go (minimum recommended version: `1.18`).
-
-   If you don't want your site to be indexed by search engines, you can add an environment flag to your build command to specify a non-`production` environment, as described in [Build environments and indexing](#build-environments-and-indexing).
+   1. For your **Build command**, specify `cd themes/docsy && git submodule update -f --init && cd ../.. && hugo`. You need to specify this rather than just `hugo` so that Netlify can use the theme's submodules. If you don't want your site to be indexed by search engines, you can add an environment flag to specify a non-`production` environment, as described in [Build environments and indexing](#build-environments-and-indexing).
+   1. Click **Show advanced**.
+   1. In the **Advanced build settings** section, click **New variable**.
+   1. Specify `HUGO_VERSION` as the **Key** for the new variable, and `0.73` or later as its **Value**.
+   1. In the **Advanced build settings** section, click **New variable** again.
+   1. Specify `GO_VERSION` as the **Key** for the new variable, and `1.18` or later as its **Value**.
 1. Click **Deploy site**.
 
 {{% alert title="Note" color="primary" %}}
@@ -69,7 +65,7 @@ For example, if you want to use a version of `postcss-cli` later than version 8.
 
 Alternatively, you can follow the same instructions but specify your **Deploy settings** in a [`netlify.toml` file](https://docs.netlify.com/configure-builds/file-based-configuration/) in your repo rather than in the **Deploy settings** page. You can see an example of this in the [Docsy theme repo](https://github.com/google/docsy/blob/main/netlify.toml) (though note that the build command here is a little unusual because the Docsy user guide is *inside* the theme repo).
 
-If you have an existing deployment you can view and update the relevant information by selecting the site from your list of sites in Netlify, then clicking **Site settings** - **Build and deploy**. Ensure that **Ubuntu Focal 20.04** is selected in the **Build image selection** section - if you're creating a new deployment this is used by default. You need to use this image to run the extended version of Hugo.
+If you have an existing deployment you can view and update the relevant information by selecting the site from your list of sites in Netlify, then clicking **Site settings** - **Build and deploy**. Ensure that **Ubuntu Xenial 16.04** is selected in the **Build image selection** section - if you're creating a new deployment this is used by default. You need to use this image to run the extended version of Hugo.
 
 ## Deployment with Amazon S3 + Amazon CloudFront
 
@@ -88,25 +84,25 @@ There are several options for publishing your web site using [Amazon Web Service
 
 1. Check the proper configuration of your AWS CLI by issuing the command `aws s3 ls`, this should output a list of your S3 bucket(s).
 
-1. Inside your `hugo.toml`/`hugo.yaml`/`hugo.json`, add a `[deployment]` section like this one:
+1. Inside your `config.toml`/`config.yaml`/`config.json`, add a `[deployment]` section like this one:
 
     {{< tabpane persistLang=false >}}
 {{< tab header="Configuration file:" disabled=true />}}
-{{< tab header="hugo.toml" lang="toml" >}}
+{{< tab header="config.toml" lang="toml" >}}
 [deployment]
 [[deployment.targets]]
 name = "aws"
 URL = "s3://www.your-domain.tld"
 cloudFrontDistributionID = "E9RZ8T1EXAMPLEID"
 {{< /tab >}}
-{{< tab header="hugo.yaml" lang="yaml" >}}
+{{< tab header="config.yaml" lang="yaml" >}}
 deployment:
   targets:
     - name: aws
       URL: 's3://www.your-domain.tld'
       cloudFrontDistributionID: E9RZ8T1EXAMPLEID
 {{< /tab >}}
-{{< tab header="hugo.json" lang="json" >}}
+{{< tab header="config.json" lang="json" >}}
 {
   "deployment": {
     "targets": [

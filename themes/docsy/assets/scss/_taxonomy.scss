@@ -50,12 +50,14 @@
   }
 
   .taxo-text-tags {
+
     li + li::before {
       content: none;
     }
   }
 
   .taxo-fruits {
+
     .taxonomy-count,
     .taxonomy-label {
       display: inherit;
@@ -123,15 +125,15 @@
   margin: 0 0.5em 0.2em 0;
   text-decoration: none;
   -webkit-transition: color 0.2s;
-  -webkit-clip-path: polygon(100% 0, 100% 100%, 0.8em 100%, 0 50%, 0.8em 0);
-  clip-path: polygon(100% 0, 100% 100%, 0.8em 100%, 0 50%, 0.8em 0);
+  -webkit-clip-path: polygon(100% 0,100% 100%,0.8em 100%,0 50%,0.8em 0);
+  clip-path: polygon(100% 0,100% 100%,0.8em 100%,0 50%,0.8em 0);
 
   &:hover {
     background-color: $primary;
     color: $white;
 
-    .taxonomy-count {
-      color: $dark !important;
+    .taxonomy-count{
+      color: $dark!important;
     }
   }
 
@@ -142,6 +144,7 @@
 
 // Example for simple tags layout
 .taxo-text-tags {
+
   .taxonomy-term {
     background: none;
     border-width: 0;
@@ -162,8 +165,8 @@
       background: none;
       color: $link-color;
 
-      .taxonomy-count {
-        color: $dark !important;
+      .taxonomy-count{
+        color: $dark!important;
       }
     }
 
@@ -198,6 +201,7 @@
 
 // Example for icon tags
 .taxo-fruits {
+
   .taxonomy-term[data-taxonomy-term]::before {
     font-style: normal;
     font-variant: normal;
@@ -250,8 +254,8 @@
       background: none;
       color: $link-color;
 
-      .taxonomy-count {
-        color: $dark !important;
+      .taxonomy-count{
+        color: $dark!important;
       }
     }
 
@@ -329,16 +333,16 @@
 
 .article-teaser {
   &.card {
-    padding: 1em;
-    margin-bottom: 1.5em;
+      padding: 1.0em;
+      margin-bottom: 1.5em;
   }
 
   .breadcrumb {
-    margin-bottom: 0em;
-    font-size: 0.85rem;
+      margin-bottom: 0em;
+      font-size: 0.85rem;
   }
 
   .article-meta {
-    margin-bottom: 0em;
+      margin-bottom: 0em;
   }
 }

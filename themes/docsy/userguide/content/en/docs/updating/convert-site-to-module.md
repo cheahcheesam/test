@@ -17,8 +17,7 @@ cd /path/to/my-existing-site
 hugo mod init github.com/me-at-github/my-existing-site
 hugo mod get github.com/google/docsy@v{{% param "version" %}}
 sed -i '/theme = \["docsy"\]/d' config.toml
-mv config.toml hugo.toml
-cat >> hugo.toml <<EOL
+cat >> config.toml <<EOL
 [module]
 proxy = "direct"
 [[module.imports]]
@@ -32,7 +31,8 @@ hugo server
 cd  my-existing-site
 hugo mod init github.com/me-at-github/my-existing-site
 hugo mod get github.com/google/docsy@v{{% param "version" %}}
-findstr /v /c:"theme = [\"docsy\"]" config.toml > hugo.toml
+findstr /v /c:"theme = [\"docsy\"]" config.toml > config.toml.temp
+move /Y config.toml.temp config.toml
 (echo [module]^
 
 proxy = "direct"^
@@ -43,7 +43,7 @@ path = "github.com/google/docsy"^
 
 [[module.imports]]^
 
-path = "github.com/google/docsy/dependencies")>>hugo.toml
+path = "github.com/google/docsy/dependencies")>>config.toml
 hugo server
 {{< /tab >}}
 {{< /tabpane >}}
@@ -77,11 +77,11 @@ This command adds the `docsy` theme module to your definition file `go.mod`.
 
 ### Update your config file
 
-In your `hugo.toml`/`hugo.yaml`/`hugo.json` file, update the theme setting to use Hugo Modules. Find the following line:
+In your `config.toml`/`config.yaml`/`config.json` file, update the theme setting to use Hugo Modules. Find the following line:
 
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
-{{< tab header="hugo.toml" lang="toml" >}}
+{{< tab header="config.toml" lang="toml" >}}
 theme = ["docsy"]
 {{< /tab >}}
 {{< tab header="config.yaml" lang="yaml" >}}
@@ -96,7 +96,7 @@ Change this line to:
 
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
-{{< tab header="hugo.toml" lang="toml" >}}
+{{< tab header="config.toml" lang="toml" >}}
 theme = ["github.com/google/docsy", "github.com/google/docsy/dependencies"]
 {{< /tab >}}
 {{< tab header="config.yaml" lang="yaml" >}}
@@ -104,7 +104,7 @@ theme:
   - github.com/google/docsy
   - github.com/google/docsy/dependencies
 {{< /tab >}}
-{{< tab header="hugo.json" lang="json" >}}
+{{< tab header="config.json" lang="json" >}}
 "theme": [
   "github.com/google/docsy",
   "github.com/google/docsy/dependencies"
@@ -116,7 +116,7 @@ Alternatively, you can omit this line altogether and replace it with the setting
 
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
-{{< tab header="hugo.toml" lang="toml" >}}
+{{< tab header="config.toml" lang="toml" >}}
 [module]
   proxy = "direct"
   # uncomment line below for temporary local development of module
@@ -131,7 +131,7 @@ Alternatively, you can omit this line altogether and replace it with the setting
     path = "github.com/google/docsy/dependencies"
     disable = false
 {{< /tab >}}
-{{< tab header="hugo.yaml" lang="yaml" >}}
+{{< tab header="config.yaml" lang="yaml" >}}
 module:
   proxy: direct
   hugoVersion:
@@ -143,7 +143,7 @@ module:
     - path: github.com/google/docsy/dependencies
       disable: false
 {{< /tab >}}
-{{< tab header="hugo.json" lang="json" >}}
+{{< tab header="config.json" lang="json" >}}
 {
   "module": {
     "proxy": "direct",
@@ -169,13 +169,8 @@ module:
 You can find details of what these configuration settings do in the [Hugo modules documentation](https://gohugo.io/hugo-modules/configuration/#module-config-top-level).
 Depending on your environment you may need to tweak them slightly, for example by adding a proxy to use when downloading remote modules.
 
-{{% alert title="Tip" %}}
-In Hugo 0.110.0 the default config base filename was changed to `hugo.toml`.
-If you are using hugo 0.110 or above, we recommend renaming your `config.toml` to `hugo.toml`!
-{{% /alert %}}
-
 {{% alert title="Attention" color="warning" %}}
-If you have a multi language installation, please make sure that the section `[languages]` inside your `hugo.toml` is declared before the section `[module]` with the module imports. Otherwise you will run into trouble!
+If you have a multi language installation, please make sure that the section `[languages]` inside your `config.toml` is declared before the section `[module]` with the module imports. Otherwise you will run into trouble!
 {{% /alert %}}
 
 ### Check validity of your configuration settings
@@ -187,8 +182,8 @@ hugo mod graph
 hugo: collected modules in 1092 ms
 github.com/me/my-existing-site github.com/google/docsy@v{{% param "version" %}}
 github.com/me/my-existing-site github.com/google/docsy/dependencies@v{{% param "version" %}}
-github.com/google/docsy/dependencies@v{{% param "version" %}} github.com/twbs/bootstrap@v5.2.3+incompatible
-github.com/google/docsy/dependencies@v{{% param "version" %}} github.com/FortAwesome/Font-Awesome@v0.0.0-20230327165841-0698449d50f2
+github.com/google/docsy/dependencies@v{{% param "version" %}} github.com/twbs/bootstrap@v4.6.1+incompatible
+github.com/google/docsy/dependencies@v{{% param "version" %}} github.com/FortAwesome/Font-Awesome@v0.0.0-20210804190922-7d3d774145ac
 ```
 
 Make sure that three lines with dependencies `docsy`, `bootstrap` and `Font-Awesome` are listed. If not, please double check your config settings.
